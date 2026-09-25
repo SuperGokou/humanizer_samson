@@ -86,3 +86,27 @@ class PipelineTests(unittest.TestCase):
     def test_simple_style_flags_do_not_force_pro(self):
         result=self.run_it(FakeClient(risk_tags=['filler','boilerplate']))
         self.assertTrue(all(c['model']=='deepseek-flash' for c in result['calls'] if c['stage']=='rewrite'))
+
+    def test_inline_formula_mutation_reverts_without_semantic_help(self):
+        class FormulaClient(FakeClient):
+            def complete(self,stage,model,payload):
+                result=super().complete(stage,model,payload)
+                if stage=='rewrite':
+                    for row in result['payload']['rewrites']:row['text']=row['text'].replace('f(x)','h(x)')
+                return result
+        doc=parse_document('The identity $f(x). g(y)$ holds.')
+        result=self.run_it(FormulaClient(),doc)
+        self.assertEqual(render_document(doc,result['replacements']),doc['text'])
+        self.assertTrue(any(i['code']=='protected_expression_changed' for i in result['issues']))
+
+    def test_model_payload_contains_heading_and_paragraph_context(self):
+        class CaptureClient(FakeClient):
+            def __init__(self):super().__init__();self.payloads=[]
+            def complete(self,stage,model,payload):
+                self.payloads.append((stage,payload))
+                return super().complete(stage,model,payload)
+        doc=parse_document('# Hypothetical scenario\n\nThe bank defaults.\n\nThis is a simulation.')
+        client=CaptureClient();self.run_it(client,doc)
+        for stage,payload in client.payloads:
+            self.assertEqual(payload['section_titles']['sec1'],'Hypothetical scenario',stage)
+            self.assertNotEqual(payload['sentences'][0]['block_id'],payload['sentences'][1]['block_id'],stage)

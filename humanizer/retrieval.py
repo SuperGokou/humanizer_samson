@@ -42,13 +42,26 @@ class StyleIndex:
                     continue
                 if rid in failed: continue
                 try:
+                    for field in ('category', 'doi', 'pipeline_status'):
+                        if row.get(field) != record.get(field):
+                            raise ValueError('Stale indexed ' + field)
+                    for field in ('year', 'journal'):
+                        if field in record and row.get(field) != record[field]:
+                            raise ValueError('Stale indexed ' + field)
+                    if row.get('source_file') != record.get('local_file'):
+                        raise ValueError('Stale indexed source identity')
                     if rid not in docs:
                         processed = internal(root, record['processed_file'])
                         source = internal(root, row['source_file'])
                         if not source.is_file(): raise ValueError('Missing original source')
                         data = processed.read_bytes(); digest.update(data)
-                        stat = source.stat(); digest.update(f'{source.relative_to(root)}:{stat.st_size}:{stat.st_mtime_ns}'.encode())
+                        source_hash = hashlib.sha256(source.read_bytes()).hexdigest()
+                        digest.update(source_hash.encode())
                         doc = json.loads(data)
+                        if doc.get('record_id') != rid or doc.get('source_file') != row['source_file']:
+                            raise ValueError('Processed provenance does not match catalog')
+                        if doc.get('source_sha256') != source_hash or record.get('sha256') != source_hash:
+                            raise ValueError('Source content changed; organize the corpus again')
                         docs[rid] = {p['id']: p['text'] for p in doc['paragraphs']}
                     paragraph = docs[rid][row['paragraph_id']]
                     if row['text'] not in paragraph: raise ValueError('Sentence does not match paragraph')

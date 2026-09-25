@@ -20,3 +20,9 @@ class DocumentTests(unittest.TestCase):
     def test_temperature_unit_ends_sentence(self):
         doc = parse_document('The temperature was 25 °C. The volume was 10 mL.')
         self.assertEqual(len(doc['sentences']), 2)
+
+    def test_inline_protected_spans_never_split(self):
+        for text in ['The identity $f(x). g(y)$ holds.', 'Use `foo. bar` here.', 'The source [Smith. 2020] applies.', 'The identity \\(f(x). g(y)\\) holds.']:
+            with self.subTest(text=text):
+                doc=parse_document(text)
+                self.assertEqual([s['text'] for s in doc['sentences']],[text])

@@ -2,7 +2,7 @@
 import math
 import re
 from .client import ProtocolError
-from .document import sentence_spans
+from .document import sentence_spans, INLINE_PROTECTED
 from .windows import DIMENSIONS
 
 def _root(payload,key):
@@ -48,7 +48,7 @@ def validate_review(payload,expected_ids):
     return rows
 
 _NUMBER = re.compile(r'(?<![\w.])[+−-]?\d+(?:[.,]\d+)*(?:[eE][+−-]?\d+)?(?:\s*(?:%|°\s*[CF]|mL|ml|kg|mg|km|cm|mm|µm|μm|mol|mM|Hz|Pa|USD|EUR|L|g|m|s)\b|%)?')
-_PROTECTED = re.compile(r'\$[^$\n]+\$|\\\(.*?\\\)|\[[^\]\n]+\]|\([^()\n]*(?:19|20)\d{2}[a-z]?[^()\n]*\)|`[^`\n]+`')
+_PROTECTED = INLINE_PROTECTED
 
 def _numbers(text): return [re.sub(r'\s+','',m.group()) for m in _NUMBER.finditer(text)]
 def _has(text,term): return len(re.findall(r'(?<!\w)'+re.escape(term)+r'(?!\w)',text,re.I))

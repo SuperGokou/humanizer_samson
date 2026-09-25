@@ -2,11 +2,17 @@
 import hashlib
 import re
 
+# Shared with hard validation: these spans must remain whole during segmentation.
+INLINE_PROTECTED = re.compile(r'\$[^$\n]+\$|\\\(.*?\\\)|\[[^\]\n]+\]|\([^()\n]*(?:19|20)\d{2}[a-z]?[^()\n]*\)|`[^`\n]+`')
+
 _ABBREVIATIONS = {'dr', 'mr', 'mrs', 'ms', 'prof', 'fig', 'figs', 'eq', 'eqs', 'vs', 'al', 'e.g', 'i.e', 'cf', 'approx', 'no'}
 
 def sentence_spans(text):
     start = 0
+    protected = [(m.start(), m.end()) for m in INLINE_PROTECTED.finditer(text)]
     for match in re.finditer(r'[.!?。！？]+[\"\'”’»\)\]]*(?=\s|$)', text):
+        if any(a <= match.start() < b for a, b in protected):
+            continue
         punctuation = match.start()
         prefix = text[:punctuation]
         word = re.search(r'([A-Za-z.]+)$', prefix)
@@ -27,6 +33,7 @@ def sentence_spans(text):
 def parse_document(text):
     blocks, sentences = [], []
     section, segment = 0, 0
+    section_titles, heading_stack = {'sec0': ''}, []
     lines = list(re.finditer(r'.*(?:\n|$)', text))
     fence, math, references = None, False, False
     current = None
@@ -50,6 +57,11 @@ def parse_document(text):
         elif re.match(r'^(#{1,6})\s+', line):
             kind = 'heading'
             section += 1
+            heading = re.match(r'^(#{1,6})\s+(.+?)\s*#*$', line)
+            level, title = len(heading[1]), heading[2]
+            heading_stack = [(depth, text) for depth, text in heading_stack if depth < level]
+            heading_stack.append((level, title))
+            section_titles[f'sec{section}'] = ' / '.join(title for _, title in heading_stack)
             references = bool(re.match(r'^#{1,6}\s+(references|bibliography)\s*$', line, re.I))
         elif references:
             kind = 'protected'
@@ -74,7 +86,7 @@ def parse_document(text):
         for a, b in sentence_spans(text[block['start']:block['end']]):
             start, end = block['start'] + a, block['start'] + b
             sentences.append({'id': f's{len(sentences)+1:06d}', 'block_id': block['id'], 'section_id': block['section_id'], 'segment_id': block['segment_id'], 'start': start, 'end': end, 'text': text[start:end]})
-    return {'text': text, 'sha256': hashlib.sha256(text.encode()).hexdigest(), 'blocks': blocks, 'sentences': sentences}
+    return {'text': text, 'sha256': hashlib.sha256(text.encode()).hexdigest(), 'blocks': blocks, 'sentences': sentences, 'section_titles': section_titles}
 
 def render_document(document, replacements):
     known = {s['id']: s for s in document['sentences']}

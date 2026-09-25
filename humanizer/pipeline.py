@@ -101,8 +101,12 @@ def _run(document,windows,index,client,options,directory):
         checkpoint['operations'][key].update(status='completed',completion=completion); persist()
         return completion['payload']
     def issue(code,detail,sid=None):result['issues'].append({'code':code,'sentence_id':sid,'detail':detail})
+    def titles(group):
+        return {s['section_id']: document['section_titles'].get(s['section_id'], '') for s in group}
+    def sentence_context(s):
+        return {key: s[key] for key in ('id', 'text', 'block_id', 'section_id', 'segment_id', 'start', 'end')}
     def review(group,phase):
-        payload={'phase':phase,'glossary':options['glossary'],'sentences':[{'id':s['id'],'section_id':s['section_id'],'block_id':s['block_id'],'original':s['text'],'revised':result['replacements'].get(s['id'],s['text'])} for s in group]}
+        payload={'section_titles':titles(group),'phase':phase,'glossary':options['glossary'],'sentences':[{'id':s['id'],'section_id':s['section_id'],'block_id':s['block_id'],'original':s['text'],'revised':result['replacements'].get(s['id'],s['text'])} for s in group]}
         return validate_review(call('review',options['models']['review'],payload),[s['id'] for s in group])
     sentences={s['id']:s for s in document['sentences']}
     degraded=False
@@ -116,13 +120,13 @@ def _run(document,windows,index,client,options,directory):
             refs=[]
             if candidates:
                 try:
-                    rerank={'sentences':[{'id':s['id'],'text':s['text']} for s in context],'candidates':candidates}
+                    rerank={'section_titles':titles(context),'sentences':[sentence_context(s) for s in context],'candidates':candidates}
                     ids=validate_rerank(call('rerank',options['models']['default'],rerank),[c['id'] for c in candidates])
                     refs=select_references(candidates,ids)
                 except (ProtocolError,ValueError):
                     issue('rerank_failed','Invalid reranking response; no reference was selected')
             result['references'][window['id']]=refs
-            payload={'sentences':[{'id':s['id'],'text':s['text']} for s in context],'owned_ids':window['owned_ids'],'references':refs,'glossary':options['glossary']}
+            payload={'section_titles':titles(context),'sentences':[sentence_context(s) for s in context],'owned_ids':window['owned_ids'],'references':refs,'glossary':options['glossary']}
             try:
                 scores=validate_scores(call('score',options['models']['default'],payload),window['sentence_ids'])
                 observations.extend({**s,'window_id':window['id']} for s in scores)
