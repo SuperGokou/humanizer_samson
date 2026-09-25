@@ -128,7 +128,9 @@ def _run(document,windows,index,client,options,directory):
                 observations.extend({**s,'window_id':window['id']} for s in scores)
             except ProtocolError:
                 scores=[]; degraded=True;issue('score_failed','Invalid scores; no editorial values fabricated')
-            complex_window=any(s['risk_tags'] for s in scores) or any('$' in s['text'] or '\\(' in s['text'] or len(s['text'])>500 for s in context)
+            payload={**payload,'editorial_scores':scores}
+            complex_tags={'complex_argument','technical_ambiguity','numeric_association','causal_claim','meaning_risk','terminology_risk'}
+            complex_window=any(complex_tags.intersection(s['risk_tags']) for s in scores) or any('$' in s['text'] or '\\(' in s['text'] or len(s['text'])>500 for s in context)
             models=[options['models']['complex']] if complex_window else [options['models']['default'],options['models']['complex']]
             if len(set(models))==1:models=models[:1]
             accepted=None

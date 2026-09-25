@@ -9,15 +9,15 @@ from humanizer.client import BudgetExceeded, TransientAPIError
 from humanizer.prompts import PROMPT_VERSION
 
 class FakeClient:
-    def __init__(self,limit=100,bad_numbers=False,review_bad=False,uncertain=False):
-        self.calls=[]; self.limit=limit; self.bad_numbers=bad_numbers; self.review_bad=review_bad; self.uncertain=uncertain; self.on_event=None
+    def __init__(self,limit=100,bad_numbers=False,review_bad=False,uncertain=False,risk_tags=None):
+        self.calls=[]; self.limit=limit; self.bad_numbers=bad_numbers; self.review_bad=review_bad; self.uncertain=uncertain; self.on_event=None; self.risk_tags=risk_tags or []
     def complete(self,stage,model,payload):
         if len(self.calls)>=self.limit: raise BudgetExceeded('Budget exhausted')
         self.calls.append({'stage':stage,'model':model,'status':'complete','usage':{'prompt_tokens':1,'completion_tokens':1}})
         if self.on_event:self.on_event()
         if self.uncertain:raise TransientAPIError('Unknown server result',True)
         if stage=='rerank': data={'selected_ids':[],'reason':'No suitable match'}
-        elif stage=='score': data={'scores':[{'id':s['id'],'naturalness':50,'clarity':60,'redundancy':40,'style_match':50,'rewrite_need':50,'reason':'Verbose','risk_tags':[]} for s in payload['sentences']]}
+        elif stage=='score': data={'scores':[{'id':s['id'],'naturalness':50,'clarity':60,'redundancy':40,'style_match':50,'rewrite_need':50,'reason':'Verbose','risk_tags':self.risk_tags} for s in payload['sentences']]}
         elif stage=='rewrite':
             data={'rewrites':[{'id':s['id'],'text':s['text'].replace('recorded','observed').replace('12','99') if self.bad_numbers else s['text'].replace('recorded','observed')} for s in payload['sentences'] if s['id'] in payload['owned_ids']]}
         else:
@@ -82,3 +82,7 @@ class PipelineTests(unittest.TestCase):
         state['operations']['crashed']={'status':'in_flight'}; path.write_text(json.dumps(state))
         client=FakeClient(); result=self.run_it(client,resume=True)
         self.assertEqual(result['status'],'uncertain'); self.assertEqual(client.calls,[])
+
+    def test_simple_style_flags_do_not_force_pro(self):
+        result=self.run_it(FakeClient(risk_tags=['filler','boilerplate']))
+        self.assertTrue(all(c['model']=='deepseek-flash' for c in result['calls'] if c['stage']=='rewrite'))

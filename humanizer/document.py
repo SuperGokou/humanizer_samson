@@ -12,7 +12,8 @@ def sentence_spans(text):
         word = re.search(r'([A-Za-z.]+)$', prefix)
         if text[punctuation] == '.' and word:
             token = word.group(1).lower()
-            if token in _ABBREVIATIONS or (len(token) == 1 and token.isalpha()):
+            is_unit = bool(re.search(r'\d\s*°?\s*[A-Za-z]$', prefix))
+            if token in _ABBREVIATIONS or (len(token) == 1 and token.isalpha() and not is_unit):
                 continue
         left = start + len(text[start:match.end()]) - len(text[start:match.end()].lstrip())
         if left < match.end():

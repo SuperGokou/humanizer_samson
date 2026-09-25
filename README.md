@@ -36,3 +36,5 @@ python3 -m unittest discover -s tests -v
 PDF 语料提取依赖 Poppler 的 `pdftotext`。增量维护命令支持 DOI、JSON、CSV、PDF/XML/TXT，详见 [语料维护指南](corpus/README.md) 和 [语料状态](corpus/reports/STATUS.md)。
 
 实施方案见 [设计文档](docs/superpowers/specs/2026-09-25-contextual-rewrite-design.md) 和 [执行计划](docs/superpowers/plans/2026-09-25-contextual-rewrite.md)。
+
+完整命令、恢复和输出说明见 [使用指南](docs/USAGE.md)；对照实验与检测结果记录见 [评估指南](docs/EVALUATION.md)。

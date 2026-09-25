@@ -16,3 +16,7 @@ class DocumentTests(unittest.TestCase):
             self.assertEqual(doc['text'][s['start']:s['end']], s['text'])
         with self.assertRaises(ValueError):
             render_document(doc, {'missing': 'bad'})
+
+    def test_temperature_unit_ends_sentence(self):
+        doc = parse_document('The temperature was 25 °C. The volume was 10 mL.')
+        self.assertEqual(len(doc['sentences']), 2)
