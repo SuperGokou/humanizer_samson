@@ -264,7 +264,7 @@ body = {
 - `run_rewrite(document: dict, windows: list[dict], index: StyleIndex, client: DeepSeekClient | None, options: dict) -> dict`
 - `save_outputs(result: dict, output_dir: Path) -> None`
 - `main(argv: list[str] | None = None) -> int`
-- options 的必填键：domain, output_dir, dry_run, resume, models（default/complex/review）, glossary, allow_candidates, max_calls, input_sha256, prompt_version。显式 no_retrieval 只用于对照实验。
+- options 的必填键：domain, output_dir, dry_run, resume, models（default/complex/review）, glossary, allow_candidates, max_calls, input_sha256, prompt_version, window_size, stride。显式 no_retrieval 只用于对照实验。
 
 - [ ] **Step 1: 使用真实文档/检索/校验/输出和可控模型回复编写集成失败测试。** fake client 只返回确定的各阶段 payload；断言最终文件而非 mock 调用本身。
 
