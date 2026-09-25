@@ -1,0 +1,191 @@
+{
+  "domain": "Science",
+  "synthetic": true,
+  "prompt_version": "contextual-2",
+  "status": "complete",
+  "input": "# Synthetic workflow fixture — not a real research result\n\n## Results\n\nIn this synthetic example, the sample was maintained at 25 °C. It is important to note that the solution volume was 10 mL. The response ratio was 0.20. These quantities are illustrative rather than experimental findings. Furthermore, the association does not establish causation. Uncontrolled variation may affect the response ratio. The interpretation follows the predefined protocol [1]. Further validation would be needed before any substantive conclusion.\n\n## References\n\n[1] Synthetic placeholder for pipeline testing; not a published source.\n",
+  "output": "# Synthetic workflow fixture — not a real research result\n\n## Results\n\nIn this synthetic example, the sample was maintained at 25 °C. It is important to note that the solution volume was 10 mL. The response ratio was 0.20. These quantities are illustrative rather than experimental findings. Furthermore, the association does not establish causation. Uncontrolled variation may affect the response ratio. The interpretation follows the predefined protocol [1]. Further validation would be needed before any substantive conclusion.\n\n## References\n\n[1] Synthetic placeholder for pipeline testing; not a published source.\n",
+  "sentences": [
+    {
+      "id": "s000001",
+      "original": "In this synthetic example, the sample was maintained at 25 °C.",
+      "revised": "In this synthetic example, the sample was maintained at 25 °C.",
+      "scores": {
+        "naturalness": 85,
+        "clarity": 88,
+        "redundancy": 10,
+        "style_match": 80,
+        "rewrite_need": 15
+      }
+    },
+    {
+      "id": "s000002",
+      "original": "It is important to note that the solution volume was 10 mL.",
+      "revised": "It is important to note that the solution volume was 10 mL.",
+      "scores": {
+        "naturalness": 70,
+        "clarity": 75,
+        "redundancy": 45,
+        "style_match": 60,
+        "rewrite_need": 40
+      }
+    },
+    {
+      "id": "s000003",
+      "original": "The response ratio was 0.20.",
+      "revised": "The response ratio was 0.20.",
+      "scores": {
+        "naturalness": 90,
+        "clarity": 92,
+        "redundancy": 5,
+        "style_match": 85,
+        "rewrite_need": 5
+      }
+    },
+    {
+      "id": "s000004",
+      "original": "These quantities are illustrative rather than experimental findings.",
+      "revised": "These quantities are illustrative rather than experimental findings.",
+      "scores": {
+        "naturalness": 88,
+        "clarity": 90,
+        "redundancy": 10,
+        "style_match": 84,
+        "rewrite_need": 10
+      }
+    },
+    {
+      "id": "s000005",
+      "original": "Furthermore, the association does not establish causation.",
+      "revised": "Furthermore, the association does not establish causation.",
+      "scores": {
+        "naturalness": 86,
+        "clarity": 88,
+        "redundancy": 15,
+        "style_match": 82,
+        "rewrite_need": 12
+      }
+    },
+    {
+      "id": "s000006",
+      "original": "Uncontrolled variation may affect the response ratio.",
+      "revised": "Uncontrolled variation may affect the response ratio.",
+      "scores": {
+        "naturalness": 88,
+        "clarity": 86,
+        "redundancy": 10,
+        "style_match": 85,
+        "rewrite_need": 8
+      }
+    },
+    {
+      "id": "s000007",
+      "original": "The interpretation follows the predefined protocol [1].",
+      "revised": "The interpretation follows the predefined protocol [1].",
+      "scores": {
+        "naturalness": 85,
+        "clarity": 87,
+        "redundancy": 10,
+        "style_match": 82,
+        "rewrite_need": 12
+      }
+    },
+    {
+      "id": "s000008",
+      "original": "Further validation would be needed before any substantive conclusion.",
+      "revised": "Further validation would be needed before any substantive conclusion.",
+      "scores": {
+        "naturalness": 80,
+        "clarity": 85,
+        "redundancy": 20,
+        "style_match": 75,
+        "rewrite_need": 22
+      }
+    }
+  ],
+  "references": [
+    {
+      "doi": "https://doi.org/10.1038/s41467-019-09234-6",
+      "pipeline_status": "review_required"
+    },
+    {
+      "doi": "https://doi.org/10.1107/s090744490804362x",
+      "pipeline_status": "review_required"
+    },
+    {
+      "doi": "https://doi.org/10.1186/gb-2010-11-10-r106",
+      "pipeline_status": "review_required"
+    }
+  ],
+  "issues": [
+    {
+      "code": "review_revert",
+      "sentence_id": "s000002",
+      "detail": "Uncertainty removed"
+    }
+  ],
+  "calls": [
+    {
+      "stage": "rerank",
+      "model": "deepseek-flash",
+      "usage": {
+        "prompt_tokens": 10436,
+        "completion_tokens": 104,
+        "total_tokens": 10540,
+        "prompt_cache_hit_tokens": 10240,
+        "prompt_cache_miss_tokens": 196
+      }
+    },
+    {
+      "stage": "score",
+      "model": "deepseek-flash",
+      "usage": {
+        "prompt_tokens": 2036,
+        "completion_tokens": 687,
+        "total_tokens": 2723,
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 1780
+      }
+    },
+    {
+      "stage": "rewrite",
+      "model": "deepseek-flash",
+      "usage": {
+        "prompt_tokens": 2744,
+        "completion_tokens": 157,
+        "total_tokens": 2901,
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 2744
+      }
+    },
+    {
+      "stage": "review",
+      "model": "deepseek-v4-pro",
+      "usage": {
+        "prompt_tokens": 646,
+        "completion_tokens": 39,
+        "total_tokens": 685,
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 646
+      }
+    },
+    {
+      "stage": "review",
+      "model": "deepseek-v4-pro",
+      "usage": {
+        "prompt_tokens": 654,
+        "completion_tokens": 5,
+        "total_tokens": 659,
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 654
+      }
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 16516,
+    "completion_tokens": 992,
+    "total_tokens": 17508
+  },
+  "cost_estimate": null,
+  "detector_score": null
+}

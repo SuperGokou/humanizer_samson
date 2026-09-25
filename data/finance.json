@@ -1,0 +1,174 @@
+{
+  "domain": "Finance",
+  "synthetic": true,
+  "prompt_version": "contextual-2",
+  "status": "complete",
+  "input": "# Synthetic workflow fixture — not a real research result\n\n## Results\n\nIn this synthetic example, the sample contains 120 observations. It is important to note that the estimated coefficient is 0.15. The standard error is 0.04. These quantities are illustrative rather than empirical findings. Furthermore, the association does not establish causation. Unobserved differences may affect the estimate. The interpretation follows the predefined terminology [1]. Further validation would be needed before any substantive conclusion.\n\n## References\n\n[1] Synthetic placeholder for pipeline testing; not a published source.\n",
+  "output": "# Synthetic workflow fixture — not a real research result\n\n## Results\n\nIn this synthetic example, the sample contains 120 observations. The estimated coefficient is 0.15. The standard error is 0.04. These quantities are illustrative rather than empirical findings. Moreover, the association does not establish causation. Unobserved differences may affect the estimate. The interpretation follows the predefined terminology [1]. Further validation would be needed before any substantive conclusion.\n\n## References\n\n[1] Synthetic placeholder for pipeline testing; not a published source.\n",
+  "sentences": [
+    {
+      "id": "s000001",
+      "original": "In this synthetic example, the sample contains 120 observations.",
+      "revised": "In this synthetic example, the sample contains 120 observations.",
+      "scores": {
+        "naturalness": 85,
+        "clarity": 88,
+        "redundancy": 8,
+        "style_match": 80,
+        "rewrite_need": 10
+      }
+    },
+    {
+      "id": "s000002",
+      "original": "It is important to note that the estimated coefficient is 0.15.",
+      "revised": "The estimated coefficient is 0.15.",
+      "scores": {
+        "naturalness": 70,
+        "clarity": 78,
+        "redundancy": 35,
+        "style_match": 65,
+        "rewrite_need": 40
+      }
+    },
+    {
+      "id": "s000003",
+      "original": "The standard error is 0.04.",
+      "revised": "The standard error is 0.04.",
+      "scores": {
+        "naturalness": 90,
+        "clarity": 92,
+        "redundancy": 5,
+        "style_match": 85,
+        "rewrite_need": 5
+      }
+    },
+    {
+      "id": "s000004",
+      "original": "These quantities are illustrative rather than empirical findings.",
+      "revised": "These quantities are illustrative rather than empirical findings.",
+      "scores": {
+        "naturalness": 88,
+        "clarity": 85,
+        "redundancy": 10,
+        "style_match": 82,
+        "rewrite_need": 12
+      }
+    },
+    {
+      "id": "s000005",
+      "original": "Furthermore, the association does not establish causation.",
+      "revised": "Moreover, the association does not establish causation.",
+      "scores": {
+        "naturalness": 75,
+        "clarity": 80,
+        "redundancy": 15,
+        "style_match": 70,
+        "rewrite_need": 25
+      }
+    },
+    {
+      "id": "s000006",
+      "original": "Unobserved differences may affect the estimate.",
+      "revised": "Unobserved differences may affect the estimate.",
+      "scores": {
+        "naturalness": 82,
+        "clarity": 84,
+        "redundancy": 10,
+        "style_match": 78,
+        "rewrite_need": 15
+      }
+    },
+    {
+      "id": "s000007",
+      "original": "The interpretation follows the predefined terminology [1].",
+      "revised": "The interpretation follows the predefined terminology [1].",
+      "scores": {
+        "naturalness": 80,
+        "clarity": 82,
+        "redundancy": 12,
+        "style_match": 75,
+        "rewrite_need": 20
+      }
+    },
+    {
+      "id": "s000008",
+      "original": "Further validation would be needed before any substantive conclusion.",
+      "revised": "Further validation would be needed before any substantive conclusion.",
+      "scores": {
+        "naturalness": 85,
+        "clarity": 88,
+        "redundancy": 8,
+        "style_match": 80,
+        "rewrite_need": 10
+      }
+    }
+  ],
+  "references": [
+    {
+      "doi": "https://doi.org/10.1007/s10901-017-9551-8",
+      "pipeline_status": "review_required"
+    },
+    {
+      "doi": "https://doi.org/10.1007/s10640-021-00585-7",
+      "pipeline_status": "review_required"
+    },
+    {
+      "doi": "https://doi.org/10.1371/journal.pone.0176546",
+      "pipeline_status": "review_required"
+    }
+  ],
+  "issues": [],
+  "calls": [
+    {
+      "stage": "rerank",
+      "model": "deepseek-flash",
+      "usage": {
+        "prompt_tokens": 10065,
+        "completion_tokens": 111,
+        "total_tokens": 10176,
+        "prompt_cache_hit_tokens": 9856,
+        "prompt_cache_miss_tokens": 209
+      }
+    },
+    {
+      "stage": "score",
+      "model": "deepseek-flash",
+      "usage": {
+        "prompt_tokens": 2220,
+        "completion_tokens": 633,
+        "total_tokens": 2853,
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 1964
+      }
+    },
+    {
+      "stage": "rewrite",
+      "model": "deepseek-flash",
+      "usage": {
+        "prompt_tokens": 2874,
+        "completion_tokens": 154,
+        "total_tokens": 3028,
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 2874
+      }
+    },
+    {
+      "stage": "review",
+      "model": "deepseek-v4-pro",
+      "usage": {
+        "prompt_tokens": 640,
+        "completion_tokens": 5,
+        "total_tokens": 645,
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 640
+      }
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 15799,
+    "completion_tokens": 903,
+    "total_tokens": 16702
+  },
+  "cost_estimate": null,
+  "detector_score": null
+}
