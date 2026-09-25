@@ -15,3 +15,5 @@ corpus/inbox/*
 .env.*
 
 !.env.example
+
+runs/
