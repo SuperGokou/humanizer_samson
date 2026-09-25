@@ -1,0 +1,17 @@
+__pycache__/
+*.pyc
+.venv/
+.env
+.DS_Store
+corpus/.lock
+corpus/fulltext/
+corpus/processed/
+corpus/metadata/
+corpus/index/
+corpus/snapshots/
+corpus/inbox/*
+!corpus/inbox/.gitkeep
+
+.env.*
+
+!.env.example
