@@ -17,7 +17,8 @@
 </p>
 
 <p align="center">
-  <a href="docs/demo/README.md"><strong>Explore the demo →</strong></a> &nbsp;·&nbsp;
+  <a href="https://supergokou.github.io/humanizer_samson/"><strong>🌐 Live Demo</strong></a> &nbsp;·&nbsp;
+  <a href="docs/demo/README.md">Recorded results</a> &nbsp;·&nbsp;
   <a href="#quick-start">Quick start</a> &nbsp;·&nbsp;
   <a href="docs/USAGE.md">Usage guide (Chinese)</a> &nbsp;·&nbsp;
   <a href="docs/EVALUATION.md">Evaluation</a>
@@ -33,6 +34,8 @@ Humanizer EN is a Python command-line tool for revising academic English while r
 
 ## 📸 Demo
 
+**[Open the hosted demo →](https://supergokou.github.io/humanizer_samson/)** — a static showcase of recorded synthetic results, with no live model calls.
+
 A real, recorded edit from the **synthetic Finance fixture**:
 
 | Original | Revised |
@@ -43,7 +46,7 @@ The numeric value is retained while the introductory filler is removed. In the S
 
 **[View both examples, sentence-level changes, and recorded usage →](docs/demo/README.md)**
 
-For a browser preview, download this repository and open [`docs/demo/index.html`](docs/demo/index.html). It is a self-contained, offline page with no API key, external scripts, or model calls. GitHub displays the HTML source; the Markdown demo above renders directly on GitHub.
+For an offline copy, download this repository and open [`docs/demo/index.html`](docs/demo/index.html). It is a self-contained, offline page with no API key, external scripts, or model calls. GitHub displays the HTML source; the Markdown demo above renders directly on GitHub.
 
 ## ✨ Features
 
@@ -232,6 +235,12 @@ python3 -m unittest discover -s tests -v
 ```
 
 See [evaluation methodology](docs/EVALUATION.md) for original / no-retrieval / retrieval comparisons and human review criteria.
+
+## 🌐 Deployment
+
+The demo is hosted on **GitHub Pages**, served from the `gh-pages` branch. Only the contents of `docs/demo/` are published; application code, local corpus assets, and credentials are not part of the site.
+
+The website displays recorded results. Running new DeepSeek rewrites requires the local CLI or a separately deployed backend; GitHub Pages does not run this Python pipeline. See the [deployment guide](docs/DEPLOYMENT.md) for updates and the hosting boundary.
 
 ## 🗂️ Repository Guide
 

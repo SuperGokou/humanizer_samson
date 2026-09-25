@@ -1,6 +1,6 @@
 # Humanizer EN · Recorded Demo
 
-[← Project overview](../../README.md) · [Offline HTML preview](index.html)
+[Live Demo](https://supergokou.github.io/humanizer_samson/) · [Project overview](../../README.md) · [Offline HTML preview](index.html)
 
 > These are recorded API results for synthetic workflow fixtures—not real research, a live editor, or a detector benchmark. No API key is needed to view them.
 
@@ -100,7 +100,7 @@ For model-backed editing, configure `.env` and follow the [quick start](../../RE
 
 ## Open the browser preview
 
-Download or clone the repository, then open `docs/demo/index.html` directly in a browser. GitHub renders this Markdown page but displays HTML files as source. The browser preview is static and works offline; it has no upload form or live model connection.
+Open the [hosted GitHub Pages demo](https://supergokou.github.io/humanizer_samson/), or download the repository and open `docs/demo/index.html` directly in a browser. GitHub renders this Markdown page but displays HTML files as source. The browser preview is static and works offline; it has no upload form or live model connection.
 
 Regenerate the demo after updating its synthetic snapshots:
 
